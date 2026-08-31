@@ -1,401 +1,209 @@
-<!doctype html>
+const html = `<!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>⚔️ Huyễn Ảnh AI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Huyền Ảnh AI</title>
 
 <style>
-:root{
-  --bg:#101225;
-  --card:#1b1d35;
-  --text:#f5f2ff;
-  --muted:#aaaac0;
-  --line:#3a3c60;
-  --a:#7b3ff2;
-  --b:#e32672
+*{
+  box-sizing:border-box;
 }
-
-*{box-sizing:border-box}
 
 body{
   margin:0;
-  font-family:system-ui;
-  background:radial-gradient(circle at 20% 0,#24204b 0,#101225 45%);
-  color:var(--text)
+  font-family:Arial,sans-serif;
+  background:#121225;
+  color:white;
+  min-height:100vh;
 }
 
-header{
-  padding:26px 18px;
-  border-bottom:1px solid var(--line);
-  font-size:28px;
-  font-weight:800
-}
-
-.wrap{
-  max-width:760px;
+.container{
+  max-width:900px;
   margin:auto;
-  padding:28px 16px 60px
-}
-
-.card{
-  background:linear-gradient(145deg,#1b1d35,#23253e);
-  border:1px solid var(--line);
-  border-radius:28px;
-  padding:22px;
-  margin-bottom:22px
+  padding:25px;
 }
 
 h1{
-  font-size:36px;
-  margin:8px 0
+  text-align:center;
+  font-size:38px;
 }
 
-h2{
-  font-size:28px
-}
-
-.sub,.note{
-  color:var(--muted);
-  font-size:18px;
-  line-height:1.55
+.box{
+  background:#20203a;
+  padding:20px;
+  border-radius:20px;
+  margin-top:20px;
 }
 
 textarea{
   width:100%;
-  min-height:180px;
-  border-radius:22px;
-  border:1px solid #6949a0;
-  background:#101528;
-  color:var(--text);
-  padding:18px;
-  font:18px/1.5 ui-monospace,monospace;
-  margin:18px 0
+  height:130px;
+  border:none;
+  border-radius:15px;
+  padding:15px;
+  font-size:16px;
 }
 
-.styles{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px
-}
-
-.style,button{
-  border:1px solid #3e4866;
-  background:#20263a;
-  color:var(--text);
-  border-radius:18px;
-  padding:16px;
-  font-size:19px;
-  cursor:pointer
-}
-
-.style.active{
-  background:linear-gradient(135deg,#7c31ef,#9d45df);
-  border-color:#9d7aff
-}
-
-#create{
-  width:100%;
-  margin-top:18px;
-  border:0;
-  background:linear-gradient(100deg,var(--a),var(--b));
-  font-size:24px;
-  font-weight:800;
-  padding:20px
-}
-
-.status{
-  text-align:center;
-  color:var(--muted);
-  min-height:28px;
-  margin-top:14px
-}
-
-.result{
-  min-height:320px;
-  border:2px dashed #4b3971;
-  border-radius:22px;
-  display:grid;
-  place-items:center;
-  overflow:hidden;
-  background:#11152a
-}
-
-.result img{
-  width:100%;
-  display:block
-}
-
-.placeholder{
-  text-align:center;
-  color:var(--muted);
-  font-size:20px;
-  padding:35px
-}
-
-.actions{
+.options{
   display:flex;
-  gap:12px;
-  margin-top:14px
+  gap:10px;
+  margin-top:15px;
 }
 
-.actions button{
+select,button{
+  padding:14px;
+  border-radius:12px;
+  border:none;
+  font-size:16px;
+}
+
+select{
   flex:1;
-  display:none
 }
 
-.actions button.show{
-  display:block
-}
-
-.history{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px
-}
-
-.history img{
+button{
   width:100%;
-  aspect-ratio:1;
-  object-fit:cover;
-  border-radius:14px;
+  margin-top:15px;
+  background:#7c3aed;
+  color:white;
+  font-weight:bold;
   cursor:pointer;
-  border:1px solid var(--line)
 }
 
-@media(max-width:500px){
-  h1{font-size:31px}
-  .card{padding:18px}
-  .style{
-    font-size:17px;
-    padding:14px
-  }
+button:disabled{
+  opacity:.5;
+}
+
+#result{
+  margin-top:25px;
+  text-align:center;
+}
+
+#result img{
+  max-width:100%;
+  border-radius:20px;
 }
 </style>
 </head>
 
 <body>
 
-<header>⚔️ Huyễn Ảnh AI 🖼️</header>
+<div class="container">
 
-<main class="wrap">
+<h1>⚔️ Huyền Ảnh AI ✨</h1>
 
-<section class="card">
+<div class="box">
 
-<h1>Thiên Cơ Họa Ảnh ✨</h1>
-
-<p class="sub">
-Nhập mô tả. Chọn phong cách. Bấm tạo ảnh.
-</p>
+<h2>🎨 Tạo ảnh AI</h2>
 
 <textarea id="prompt"
-placeholder="Ví dụ: Một nữ tu tiên đứng trên đỉnh núi, mây đen và lôi kiếp phía xa, tiên hiệp, điện ảnh, chi tiết cao..."></textarea>
+placeholder="Ví dụ: Một nữ tu tiên đứng trên đỉnh núi, lôi kiếp, phong cách fantasy..."></textarea>
 
-<div class="styles">
+<div class="options">
 
-<button class="style active"
-data-style="Tiên hiệp, tu tiên, huyền huyễn phương Đông, trang phục cổ phong, cảnh quan hùng vĩ">
-⚔️ Tu tiên
-</button>
+<select id="size">
+<option value="1024x1024">⬜ 1:1</option>
+<option value="1024x1536">📱 2:3</option>
+<option value="1536x1024">🖼️ 3:2</option>
+</select>
 
-<button class="style"
-data-style="Huyền huyễn kỳ ảo, ma pháp, ánh sáng thần bí, thế giới fantasy">
-🌙 Huyền huyễn
-</button>
+</div>
 
-<button class="style"
-data-style="Anime chất lượng cao, minh họa chi tiết, bố cục đẹp">
-🎨 Anime
-</button>
-
-<button class="style"
-data-style="Photorealistic, cinematic lighting, highly detailed, realistic photography">
-📷 Realistic
+<button id="generate">
+✨ TẠO ẢNH
 </button>
 
 </div>
 
-<button id="create">✨ Tạo ảnh</button>
+<div id="result"></div>
 
-<div id="status" class="status"></div>
-
-<p class="note">
-🔒 Hiện tại giao diện đã xong. Bước sau sẽ nối AI thật để tạo ảnh.
-</p>
-
-</section>
-
-<section class="card">
-
-<h2>🔮 Kết quả</h2>
-
-<div id="result" class="result">
-<div class="placeholder">
-🖼️ Ảnh của ngươi sẽ xuất hiện tại đây
 </div>
-</div>
-
-<div class="actions">
-<button id="download">📥 Tải ảnh</button>
-<button id="clear">🗑️ Xóa</button>
-</div>
-
-</section>
-
-<section class="card">
-
-<h2>🕘 Lịch sử</h2>
-
-<div id="history" class="history">
-<p class="sub">Chưa có ảnh nào.</p>
-</div>
-
-</section>
-
-</main>
 
 <script>
 
-let style =
-document.querySelector(".style.active").dataset.style;
+const btn = document.getElementById("generate");
 
-let currentImage="";
+btn.onclick = async () => {
 
-const promptEl=document.querySelector("#prompt");
-const statusEl=document.querySelector("#status");
-const resultEl=document.querySelector("#result");
-const createBtn=document.querySelector("#create");
+  const prompt = document.getElementById("prompt").value;
+  const size = document.getElementById("size").value;
+  const result = document.getElementById("result");
 
-document.querySelectorAll(".style").forEach(b=>{
-  b.onclick=()=>{
-    document.querySelectorAll(".style")
-    .forEach(x=>x.classList.remove("active"));
-
-    b.classList.add("active");
-
-    style=b.dataset.style;
+  if(!prompt){
+    result.innerHTML = "⚠️ Hãy nhập mô tả ảnh!";
+    return;
   }
-});
 
-function hist(){
-  return JSON.parse(
-    localStorage.getItem("huyenAnhHistory")||"[]"
-  );
-}
+  btn.disabled = true;
+  btn.innerText = "⏳ Đang tạo ảnh...";
 
-function render(){
-
-  const h=hist();
-
-  const box=document.querySelector("#history");
-
-  box.innerHTML=h.length?"":"<p class='sub'>Chưa có ảnh nào.</p>";
-
-  h.forEach(src=>{
-
-    const i=new Image();
-
-    i.src=src;
-
-    i.onclick=()=>show(src);
-
-    box.append(i);
-
-  });
-
-}
-
-function show(src){
-
-  currentImage=src;
-
-  resultEl.innerHTML="";
-
-  const i=new Image();
-
-  i.src=src;
-
-  resultEl.append(i);
-
-  document
-  .querySelectorAll(".actions button")
-  .forEach(b=>b.classList.add("show"));
-
-}
-
-function add(src){
-
-  let h=hist();
-
-  h.unshift(src);
-
-  h=h.slice(0,9);
+  result.innerHTML = "✨ AI đang vẽ ảnh cho bạn...";
 
   try{
-    localStorage.setItem(
-      "huyenAnhHistory",
-      JSON.stringify(h)
-    );
-  }catch(e){}
 
-  render();
+    const response = await fetch("/generate",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        prompt,
+        size
+      })
+    });
 
-}
+    const data = await response.json();
 
-createBtn.onclick=async()=>{
+    if(data.error){
+      result.innerHTML = "❌ " + data.error;
+    }else{
+      result.innerHTML =
+      '<img src="' + data.image + '">';
+    }
 
-  const text=promptEl.value.trim();
+  }catch(error){
 
-  if(!text){
-
-    statusEl.textContent=
-    "⚠️ Hãy nhập mô tả trước.";
-
-    return;
+    result.innerHTML =
+    "❌ Có lỗi khi kết nối AI";
 
   }
 
-  createBtn.disabled=true;
-
-  createBtn.textContent=
-  "⏳ Đang chuẩn bị...";
-
-  statusEl.textContent=
-  "Giao diện đang hoạt động.";
-
-  resultEl.innerHTML=
-  "<div class='placeholder'>✨ AI sẽ được kết nối ở bước tiếp theo</div>";
-
-  setTimeout(()=>{
-
-    createBtn.disabled=false;
-
-    createBtn.textContent=
-    "✨ Tạo ảnh";
-
-    statusEl.textContent=
-    "⚠️ Chưa kết nối AI thật.";
-
-  },1000);
+  btn.disabled = false;
+  btn.innerText = "✨ TẠO ẢNH";
 
 };
-
-document.querySelector("#clear").onclick=()=>{
-
-  currentImage="";
-
-  resultEl.innerHTML=
-  "<div class='placeholder'>🖼️ Ảnh của ngươi sẽ xuất hiện tại đây</div>";
-
-  document
-  .querySelectorAll(".actions button")
-  .forEach(b=>b.classList.remove("show"));
-
-};
-
-render();
 
 </script>
 
 </body>
-  </html>
+</html>`;
+
+export default {
+
+  async fetch(request, env) {
+
+    const url = new URL(request.url);
+
+    if (
+      request.method === "GET" &&
+      url.pathname === "/"
+    ) {
+
+      return new Response(html, {
+        headers: {
+          "content-type":
+          "text/html;charset=UTF-8"
+        }
+      });
+
+    }
+
+    if (
+      request.method === "POST" &&
+      url.pathname === "/generate"
+    ) {
+
+      try {
+
+        const body
