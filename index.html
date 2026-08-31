@@ -7,190 +7,167 @@
 <title>Huyền Ảnh AI</title>
 
 <style>
-* { box-sizing: border-box; }
+*{box-sizing:border-box}
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: Arial, sans-serif;
-  color: white;
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Arial,sans-serif;
+  color:#fff;
   background:
-    radial-gradient(circle at top, #49317a 0%, #1b1830 42%, #080811 100%);
+    radial-gradient(circle at top,#49317a,#1b1830 45%,#080811);
 }
 
-.container {
-  width: 100%;
-  max-width: 850px;
-  margin: auto;
-  padding: 28px 14px 60px;
+.container{
+  max-width:850px;
+  margin:auto;
+  padding:28px 14px 60px;
 }
 
-header {
-  text-align: center;
-  margin-bottom: 28px;
+header{
+  text-align:center;
+  margin-bottom:28px;
 }
 
-h1 {
-  margin: 0;
-  font-size: 36px;
+h1{
+  margin:0;
+  font-size:36px;
 }
 
-.subtitle {
-  color: #c9c2e6;
-  margin-top: 10px;
+.subtitle{
+  margin-top:10px;
+  color:#c9c2e6;
 }
 
-.tabs {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
+.tabs{
+  display:flex;
+  gap:10px;
+  margin-bottom:15px;
 }
 
-.tab {
-  flex: 1;
-  margin: 0;
-  padding: 14px;
-  border: 1px solid rgba(255,255,255,.15);
-  background: rgba(255,255,255,.08);
-  color: white;
-  border-radius: 14px;
-  cursor: pointer;
+.tab{
+  flex:1;
+  border:0;
+  padding:15px;
+  border-radius:14px;
+  color:white;
+  background:rgba(255,255,255,.08);
+  font-size:16px;
+  cursor:pointer;
 }
 
-.tab.active {
-  background: linear-gradient(135deg,#743cff,#d52f9c);
+.tab.active{
+  background:linear-gradient(135deg,#743cff,#d52f9c);
 }
 
-.card {
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.14);
-  border-radius: 24px;
-  padding: 20px;
-  backdrop-filter: blur(12px);
+.card{
+  padding:20px;
+  border-radius:24px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.14);
 }
 
-.panel {
-  display: none;
+.panel{display:none}
+.panel.active{display:block}
+
+label{
+  display:block;
+  margin:12px 0 8px;
 }
 
-.panel.active {
-  display: block;
+textarea,select,input[type=file]{
+  width:100%;
+  padding:15px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.15);
+  background:rgba(0,0,0,.25);
+  color:white;
+  font-size:16px;
 }
 
-label {
-  display: block;
-  margin: 15px 0 8px;
+textarea{
+  min-height:130px;
+  resize:vertical;
 }
 
-textarea,
-input[type="text"],
-select {
-  width: 100%;
-  padding: 15px;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,.15);
-  background: rgba(0,0,0,.25);
-  color: white;
-  font-size: 16px;
+.presets{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:12px;
 }
 
-textarea {
-  min-height: 130px;
-  resize: vertical;
+.preset{
+  width:auto;
+  margin:0;
+  padding:10px 13px;
+  border:0;
+  border-radius:20px;
+  background:rgba(255,255,255,.1);
+  color:white;
+  cursor:pointer;
 }
 
-input[type="file"] {
-  width: 100%;
-  padding: 12px;
-  border-radius: 14px;
-  background: rgba(255,255,255,.08);
+.main-btn{
+  width:100%;
+  margin-top:18px;
+  padding:18px;
+  border:0;
+  border-radius:16px;
+  color:white;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  background:linear-gradient(135deg,#713cff,#d52f9c,#ed4b72);
 }
 
-.main-btn {
-  width: 100%;
-  border: 0;
-  margin-top: 18px;
-  padding: 17px;
-  border-radius: 16px;
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  background: linear-gradient(135deg,#713cff,#d52f9c,#ed4b72);
+.main-btn:disabled{
+  opacity:.55;
 }
 
-.main-btn:disabled {
-  opacity: .55;
+#preview{
+  display:none;
+  width:100%;
+  max-height:400px;
+  object-fit:contain;
+  margin-top:15px;
+  border-radius:16px;
 }
 
-.presets {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 12px;
+.status{
+  min-height:25px;
+  margin-top:18px;
+  text-align:center;
+  color:#d8cff7;
 }
 
-.preset {
-  width: auto;
-  margin: 0;
-  padding: 9px 12px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,.12);
-  background: rgba(255,255,255,.08);
-  color: white;
-  cursor: pointer;
+.result-box{
+  display:none;
+  margin-top:24px;
+  padding:10px;
+  border-radius:22px;
+  background:rgba(255,255,255,.07);
 }
 
-#preview {
-  display: none;
-  width: 100%;
-  max-height: 400px;
-  object-fit: contain;
-  margin-top: 15px;
-  border-radius: 16px;
+.result-box.show{
+  display:block;
 }
 
-.status {
-  text-align: center;
-  min-height: 25px;
-  margin-top: 18px;
-  color: #d8cff7;
+#result{
+  display:block;
+  width:100%;
+  border-radius:16px;
 }
 
-.result-box {
-  display: none;
-  margin-top: 24px;
-  padding: 10px;
-  border-radius: 22px;
-  background: rgba(255,255,255,.07);
-}
-
-.result-box.show {
-  display: block;
-}
-
-#result {
-  display: block;
-  width: 100%;
-  border-radius: 16px;
-}
-
-.download {
-  display: block;
-  margin-top: 10px;
-  padding: 14px;
-  text-align: center;
-  border-radius: 14px;
-  text-decoration: none;
-  color: white;
-  background: rgba(255,255,255,.12);
-}
-
-.key-box {
-  margin-bottom: 18px;
-  padding: 14px;
-  border-radius: 16px;
-  background: rgba(0,0,0,.22);
+.download{
+  display:block;
+  margin-top:10px;
+  padding:14px;
+  text-align:center;
+  border-radius:14px;
+  background:rgba(255,255,255,.12);
+  color:white;
+  text-decoration:none;
 }
 </style>
 </head>
@@ -200,189 +177,120 @@ input[type="file"] {
 <div class="container">
 
 <header>
-  <h1>⚔️ HUYỀN ẢNH AI ✨</h1>
-  <div class="subtitle">
-    Tạo thế giới tiên hiệp · Biến hóa vạn tượng
-  </div>
+<h1>⚔️ HUYỀN ẢNH AI ✨</h1>
+<div class="subtitle">
+Một niệm hóa vạn tượng · Tiên đạo vô tận
+</div>
 </header>
 
-<div class="key-box">
-
-<label>🔑 Pollinations API Key</label>
-
-<input
-  type="text"
-  id="apiKey"
-  placeholder="Dán key pk_... vào đây"
->
-
-</div>
-
 <div class="tabs">
-
-<button
-  class="tab active"
-  onclick="switchTab('generate')"
->
+<button class="tab active" onclick="switchTab('generate',this)">
 ✨ Tạo mới
 </button>
 
-<button
-  class="tab"
-  onclick="switchTab('edit')"
->
+<button class="tab" onclick="switchTab('edit',this)">
 🖼️ Biến ảnh
 </button>
-
 </div>
-
 
 <div class="card">
 
-<!-- B: TẠO ẢNH MỚI -->
+<!-- TẠO ẢNH -->
 
-<div
-  id="generate"
-  class="panel active"
->
+<div id="generate" class="panel active">
 
 <label>✨ Mô tả hình ảnh</label>
 
 <textarea
-  id="prompt"
-  placeholder="Ví dụ: Một nữ kiếm tiên đứng trên đỉnh núi giữa biển mây, trường kiếm phát sáng, tiên hiệp cinematic..."
+id="prompt"
+placeholder="Ví dụ: Một nữ kiếm tiên đứng trên đỉnh núi giữa biển mây, trường kiếm phát sáng, tiên hiệp cinematic..."
 ></textarea>
 
 <div class="presets">
 
-<button
-  class="preset"
-  onclick="setPrompt('Một kiếm tiên áo trắng đứng trên đỉnh núi giữa biển mây, cầm trường kiếm, tiên hiệp fantasy, cinematic, cực kỳ chi tiết')"
->
+<button class="preset"
+onclick="setPrompt('Một kiếm tiên áo trắng đứng trên đỉnh núi giữa biển mây, cầm trường kiếm, tiên hiệp fantasy, cinematic, cực kỳ chi tiết')">
 ⚔️ Kiếm tiên
 </button>
 
-<button
-  class="preset"
-  onclick="setPrompt('Một nữ tu tiên đứng một mình giữa thiên địa, xung quanh núi non, mây đen và lôi kiếp giáng xuống, tiên hiệp hoành tráng, cinematic')"
->
+<button class="preset"
+onclick="setPrompt('Một nữ tu tiên đứng một mình giữa thiên địa, núi non hùng vĩ, mây đen và lôi kiếp giáng xuống, tiên hiệp cinematic')">
 ⚡ Độ kiếp
 </button>
 
-<button
-  class="preset"
-  onclick="setPrompt('Một tiên cung cổ đại lơ lửng giữa biển mây, núi non hùng vĩ, thác nước, ánh sáng thần bí, fantasy cinematic')"
->
+<button class="preset"
+onclick="setPrompt('Một tiên cung cổ đại lơ lửng giữa biển mây, núi non, thác nước, ánh sáng thần bí, fantasy cinematic')">
 🏯 Tiên cảnh
 </button>
 
-<button
-  class="preset"
-  onclick="setPrompt('Một ma tôn đứng giữa biển lửa và ma khí, áo choàng tung bay, tiên hiệp dark fantasy, cinematic')"
->
+<button class="preset"
+onclick="setPrompt('Một ma tôn đứng giữa biển lửa và ma khí, áo choàng tung bay, dark xianxia fantasy, cinematic')">
 🌑 Ma đạo
 </button>
 
 </div>
 
 <button
-  id="generateBtn"
-  class="main-btn"
-  onclick="generateImage()"
->
+id="generateBtn"
+class="main-btn"
+onclick="generateImage()">
 ✨ Khai Thiên · Tạo Ảnh
 </button>
 
 </div>
 
+<!-- BIẾN ẢNH -->
 
-<!-- C: BIẾN ẢNH -->
-
-<div
-  id="edit"
-  class="panel"
->
+<div id="edit" class="panel">
 
 <label>🖼️ Chọn ảnh gốc</label>
 
 <input
-  type="file"
-  id="imageInput"
-  accept="image/*"
-  onchange="previewImage()"
->
+type="file"
+id="imageInput"
+accept="image/*"
+onchange="previewImage()">
 
 <img id="preview">
 
-<label>⚔️ Phong cách</label>
+<label>⚔️ Chọn phong cách</label>
 
 <select id="style">
-
-<option value="xianxia Chinese cultivation fantasy, immortal warrior, cinematic">
-⚔️ Tiên hiệp
-</option>
-
-<option value="ancient Chinese hanfu, traditional Chinese fantasy, elegant">
-🌸 Cổ phong
-</option>
-
-<option value="high quality anime style, detailed illustration">
-✨ Anime
-</option>
-
-<option value="dark xianxia, demonic cultivation, dark fantasy, dramatic">
-🌑 Ma đạo
-</option>
-
-<option value="celestial palace, mountains, clouds, divine fantasy">
-☁️ Tiên cảnh
-</option>
-
+<option>⚔️ Tiên hiệp</option>
+<option>🌸 Cổ phong</option>
+<option>✨ Anime</option>
+<option>🌑 Ma đạo</option>
+<option>☁️ Tiên cảnh</option>
 </select>
 
-<label>✨ Thêm mô tả</label>
+<label>✨ Mô tả thêm</label>
 
 <textarea
-  id="editPrompt"
-  placeholder="Ví dụ: biến nhân vật thành nữ kiếm tiên, áo trắng, đứng giữa biển mây..."
+id="editPrompt"
+placeholder="Ví dụ: biến nhân vật thành nữ kiếm tiên, áo trắng, đứng giữa biển mây..."
 ></textarea>
 
 <button
-  id="editBtn"
-  class="main-btn"
-  onclick="editImage()"
->
-🌀 Biến Hóa
+class="main-btn"
+onclick="prepareEdit()">
+🌀 Chuẩn Bị Biến Hóa
 </button>
 
 </div>
 
-
-<div
-  id="status"
-  class="status"
->
+<div id="status" class="status">
 ⚡ Một niệm hóa vạn tượng...
 </div>
 
 </div>
 
+<div id="resultBox" class="result-box">
 
-<div
-  id="resultBox"
-  class="result-box"
->
+<img id="result">
 
-<img
-  id="result"
-  alt="Ảnh AI"
->
-
-<a
-  id="download"
-  class="download"
-  download="huyen-anh-ai.png"
->
+<a id="download"
+class="download"
+download="huyen-anh-ai.png">
 ⬇️ Lưu ảnh
 </a>
 
@@ -390,406 +298,110 @@ input[type="file"] {
 
 </div>
 
-
 <script>
 
-function getKey() {
+function switchTab(name,button){
 
-  return document
-    .getElementById("apiKey")
-    .value
-    .trim();
-
-}
-
-
-function switchTab(name) {
-
-  document
-    .querySelectorAll(".panel")
-    .forEach(panel => {
-
-      panel.classList.remove("active");
-
-    });
-
-
-  document
-    .querySelectorAll(".tab")
-    .forEach(tab => {
-
-      tab.classList.remove("active");
-
-    });
-
-
-  document
-    .getElementById(name)
-    .classList.add("active");
-
-
-  event.target
-    .classList.add("active");
-
-}
-
-
-function setPrompt(text) {
-
-  document
-    .getElementById("prompt")
-    .value = text;
-
-}
-
-
-function previewImage() {
-
-  const file =
-    document
-      .getElementById("imageInput")
-      .files[0];
-
-  const preview =
-    document
-      .getElementById("preview");
-
-
-  if (!file) return;
-
-
-  preview.src =
-    URL.createObjectURL(file);
-
-  preview.style.display =
-    "block";
-
-}
-
-
-function showResult(url) {
-
-  const result =
-    document.getElementById("result");
-
-  const box =
-    document.getElementById("resultBox");
-
-  const download =
-    document.getElementById("download");
-
-
-  result.src = url;
-
-  download.href = url;
-
-  box.classList.add("show");
-
-  box.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
+  document.querySelectorAll(".panel").forEach(function(panel){
+    panel.classList.remove("active");
   });
 
+  document.querySelectorAll(".tab").forEach(function(tab){
+    tab.classList.remove("active");
+  });
+
+  document.getElementById(name).classList.add("active");
+  button.classList.add("active");
 }
 
-
-async function generateImage() {
-
-  const prompt =
-    document
-      .getElementById("prompt")
-      .value
-      .trim();
-
-  const key = getKey();
-
-  const button =
-    document.getElementById("generateBtn");
-
-  const status =
-    document.getElementById("status");
-
-
-  if (!key) {
-
-    status.textContent =
-      "⚠️ Hãy nhập Pollinations API key.";
-
-    return;
-
-  }
-
-
-  if (!prompt) {
-
-    status.textContent =
-      "⚠️ Hãy nhập mô tả ảnh.";
-
-    return;
-
-  }
-
-
-  button.disabled = true;
-
-  button.textContent =
-    "⏳ Đang khai thiên...";
-
-  status.textContent =
-    "🎨 AI đang tạo ảnh...";
-
-
-  try {
-
-    const response = await fetch(
-
-      "https://gen.pollinations.ai/v1/images/generations",
-
-      {
-        method: "POST",
-
-        headers: {
-          "Authorization":
-            "Bearer " + key,
-
-          "Content-Type":
-            "application/json"
-        },
-
-        body: JSON.stringify({
-
-          model: "flux",
-
-          prompt: prompt,
-
-          size: "1024x1024",
-
-          response_format: "b64_json"
-
-        })
-
-      }
-
-    );
-
-
-    const data =
-      await response.json();
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        data?.error?.message ||
-        "Không thể tạo ảnh"
-      );
-
-    }
-
-
-    const image =
-      data?.data?.[0]?.b64_json;
-
-
-    if (!image) {
-
-      throw new Error(
-        "AI không trả ảnh"
-      );
-
-    }
-
-
-    const imageUrl =
-      "data:image/png;base64," +
-      image;
-
-
-    showResult(imageUrl);
-
-
-    status.textContent =
-      "✨ Ảnh đã được tạo!";
-
-
-  } catch (error) {
-
-    status.textContent =
-      "❌ " + error.message;
-
-  }
-
-
-  button.disabled = false;
-
-  button.textContent =
-    "✨ Khai Thiên · Tạo Ảnh";
-
+function setPrompt(text){
+  document.getElementById("prompt").value=text;
 }
 
+function previewImage(){
 
-async function editImage() {
+  const file=document.getElementById("imageInput").files[0];
+  const preview=document.getElementById("preview");
 
-  const key = getKey();
+  if(!file)return;
 
-  const file =
-    document
-      .getElementById("imageInput")
-      .files[0];
+  preview.src=URL.createObjectURL(file);
+  preview.style.display="block";
+}
 
-  const style =
-    document
-      .getElementById("style")
-      .value;
+async function generateImage(){
 
-  const extra =
-    document
-      .getElementById("editPrompt")
-      .value
-      .trim();
+  const prompt=document.getElementById("prompt").value.trim();
+  const button=document.getElementById("generateBtn");
+  const status=document.getElementById("status");
 
-  const button =
-    document.getElementById("editBtn");
-
-  const status =
-    document.getElementById("status");
-
-
-  if (!key) {
-
-    status.textContent =
-      "⚠️ Hãy nhập Pollinations API key.";
-
+  if(!prompt){
+    status.textContent="⚠️ Hãy nhập mô tả ảnh.";
     return;
+  }
+
+  button.disabled=true;
+  button.textContent="⏳ Thiên địa đang diễn hóa...";
+  status.textContent="🎨 Đang triệu hồi hình ảnh...";
+
+  try{
+
+    const seed=Math.floor(Math.random()*999999);
+
+    const imageUrl=
+      "https://image.pollinations.ai/prompt/"+
+      encodeURIComponent(prompt)+
+      "?width=1024&height=1024&seed="+
+      seed+
+      "&nologo=true";
+
+    const test=new Image();
+
+    await new Promise(function(resolve,reject){
+
+      test.onload=resolve;
+      test.onerror=function(){
+        reject(new Error("Không thể tạo ảnh, hãy thử lại."));
+      };
+
+      test.src=imageUrl;
+    });
+
+    document.getElementById("result").src=imageUrl;
+    document.getElementById("download").href=imageUrl;
+
+    document.getElementById("resultBox")
+      .classList.add("show");
+
+    status.textContent="✨ Vạn tượng đã hiện!";
+
+  }catch(error){
+
+    status.textContent="❌ "+error.message;
 
   }
 
+  button.disabled=false;
+  button.textContent="✨ Khai Thiên · Tạo Ảnh";
+}
 
-  if (!file) {
+function prepareEdit(){
 
-    status.textContent =
-      "⚠️ Hãy chọn ảnh.";
+  const file=document.getElementById("imageInput").files[0];
+  const style=document.getElementById("style").value;
+  const extra=document.getElementById("editPrompt").value.trim();
+  const status=document.getElementById("status");
 
+  if(!file){
+    status.textContent="⚠️ Hãy chọn ảnh trước.";
     return;
-
   }
 
-
-  button.disabled = true;
-
-  button.textContent =
-    "🌀 Đang biến hóa...";
-
-  status.textContent =
-    "🎨 AI đang xử lý ảnh...";
-
-
-  try {
-
-    const formData =
-      new FormData();
-
-
-    formData.append(
-      "image",
-      file
-    );
-
-
-    formData.append(
-      "prompt",
-
-      "Transform this image into: " +
-      style +
-      ". " +
-      extra
-    );
-
-
-    formData.append(
-      "model",
-      "kontext"
-    );
-
-
-    formData.append(
-      "size",
-      "1024x1024"
-    );
-
-
-    const response = await fetch(
-
-      "https://gen.pollinations.ai/v1/images/edits",
-
-      {
-        method: "POST",
-
-        headers: {
-
-          "Authorization":
-            "Bearer " + key
-
-        },
-
-        body: formData
-
-      }
-
-    );
-
-
-    const data =
-      await response.json();
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        data?.error?.message ||
-        "Không thể biến đổi ảnh"
-      );
-
-    }
-
-
-    const image =
-      data?.data?.[0]?.b64_json;
-
-
-    if (!image) {
-
-      throw new Error(
-        "AI không trả ảnh"
-      );
-
-    }
-
-
-    const imageUrl =
-      "data:image/png;base64," +
-      image;
-
-
-    showResult(imageUrl);
-
-
-    status.textContent =
-      "✨ Biến hóa thành công!";
-
-
-  } catch (error) {
-
-    status.textContent =
-      "❌ " + error.message;
-
-  }
-
-
-  button.disabled = false;
-
-  button.textContent =
-    "🌀 Biến Hóa";
+  status.innerHTML=
+    "🖼️ Đã chọn ảnh. Phong cách: <b>"+
+    style+
+    "</b><br>✨ "+(extra||"Không có mô tả thêm")+
+    "<br><br>⚠️ Chức năng biến ảnh thật cần dịch vụ AI image-to-image.";
 
 }
 
