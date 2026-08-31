@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Huyễn Ảnh AI ✨</title>
+  <title>Huyền Ảnh AI ✨</title>
 
   <style>
     * {
@@ -55,7 +55,7 @@
       font-size: 18px;
       font-weight: bold;
       cursor: pointer;
-      background: linear-gradient(135deg, #7b2cff, #ff2d95);
+      background: linear-gradient(135deg, #7b2ff7, #f107a3);
       color: white;
     }
 
@@ -83,7 +83,7 @@
 
   <div class="box">
 
-    <h1>⚔️ Huyễn Ảnh AI ✨</h1>
+    <h1>⚔️ Huyền Ảnh AI ✨</h1>
 
     <textarea
       id="prompt"
@@ -100,108 +100,110 @@
 
   </div>
 
-<script>
 
-async function generateImage() {
+  <script>
 
-  const prompt = document
-    .getElementById("prompt")
-    .value
-    .trim();
+    async function generateImage() {
 
-  const button =
-    document.getElementById("generateBtn");
+      const prompt = document
+        .getElementById("prompt")
+        .value
+        .trim();
 
-  const status =
-    document.getElementById("status");
+      const button =
+        document.getElementById("generateBtn");
 
-  const result =
-    document.getElementById("result");
+      const status =
+        document.getElementById("status");
 
-
-  if (!prompt) {
-    status.innerText = "⚠️ Hãy nhập mô tả ảnh!";
-    return;
-  }
+      const result =
+        document.getElementById("result");
 
 
-  button.disabled = true;
-  button.innerText = "⏳ Đang tạo...";
-  status.innerText = "🎨 AI đang vẽ ảnh...";
-  result.style.display = "none";
+      if (!prompt) {
 
+        status.innerText =
+          "⚠️ Hãy nhập mô tả hình ảnh!";
 
-  try {
-
-    /*
-      QUAN TRỌNG:
-
-      Thay dòng YOUR_WORKER_URL bên dưới
-      bằng link Worker của m.
-
-      Ví dụ:
-
-      https://huyen-anh-ai.username.workers.dev
-    */
-
-    const response = await fetch(
-      "YOUR_WORKER_URL",
-      {
-        method: "POST",
-
-        headers: {
-          "Content-Type":
-            "application/json"
-        },
-
-        body: JSON.stringify({
-          prompt: prompt
-        })
+        return;
       }
-    );
 
 
-    const data =
-      await response.json();
+      button.disabled = true;
+
+      button.innerText =
+        "⏳ Đang tạo...";
+
+      status.innerText =
+        "🎨 AI đang vẽ ảnh...";
+
+      result.style.display =
+        "none";
 
 
-    if (!response.ok) {
-      throw new Error(
-        data.error ||
-        "Không thể tạo ảnh"
-      );
+      try {
+
+        const response = await fetch(
+          "https://wandering-cloud-0b6c.d7187118-cbe.workers.dev",
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+
+            body: JSON.stringify({
+              prompt: prompt
+            })
+          }
+        );
+
+
+        const data =
+          await response.json();
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.error ||
+            "Không thể tạo ảnh"
+          );
+        }
+
+
+        result.src =
+          data.image;
+
+        result.style.display =
+          "block";
+
+        status.innerText =
+          "✨ Tạo ảnh thành công!";
+
+      }
+
+      catch (error) {
+
+        console.error(error);
+
+        status.innerText =
+          "❌ Lỗi: " +
+          error.message;
+
+      }
+
+
+      button.disabled =
+        false;
+
+      button.innerText =
+        "✨ Tạo ảnh";
+
     }
 
-
-    result.src =
-      data.image;
-
-    result.style.display =
-      "block";
-
-    status.innerText =
-      "✨ Tạo ảnh thành công!";
-
-
-  } catch (error) {
-
-    console.error(error);
-
-    status.innerText =
-      "❌ Lỗi: " +
-      error.message;
-
-  }
-
-
-  button.disabled = false;
-
-  button.innerText =
-    "✨ Tạo ảnh";
-
-}
-
-</script>
+  </script>
 
 </body>
 </html>
