@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Huyền Ảnh AI</title>
+  <title>Huyễn Ảnh AI ✨</title>
 
   <style>
     * {
@@ -15,7 +15,7 @@
       margin: 0;
       min-height: 100vh;
       font-family: Arial, sans-serif;
-      background: #151526;
+      background: #17172b;
       color: white;
       display: flex;
       justify-content: center;
@@ -25,8 +25,8 @@
 
     .box {
       width: 100%;
-      max-width: 700px;
-      background: #24243a;
+      max-width: 600px;
+      background: #22223a;
       padding: 25px;
       border-radius: 20px;
     }
@@ -38,11 +38,11 @@
 
     textarea {
       width: 100%;
-      min-height: 140px;
+      height: 130px;
+      border: none;
+      border-radius: 12px;
       padding: 15px;
       font-size: 16px;
-      border-radius: 12px;
-      border: 1px solid #555;
       resize: vertical;
     }
 
@@ -53,81 +53,105 @@
       border: none;
       border-radius: 12px;
       font-size: 18px;
+      font-weight: bold;
       cursor: pointer;
-      background: #7c3aed;
+      background: linear-gradient(135deg, #7b2cff, #ff2d95);
       color: white;
     }
 
     button:disabled {
       opacity: 0.6;
+      cursor: not-allowed;
     }
 
     #status {
       text-align: center;
       margin: 20px 0;
+      min-height: 24px;
     }
 
-    img {
+    #result {
       width: 100%;
       display: none;
       border-radius: 15px;
-      margin-top: 15px;
+      margin-top: 10px;
     }
   </style>
 </head>
 
 <body>
 
-<div class="box">
+  <div class="box">
 
-  <h1>✨ Huyền Ảnh AI</h1>
+    <h1>⚔️ Huyễn Ảnh AI ✨</h1>
 
-  <textarea
-    id="prompt"
-    placeholder="Nhập mô tả hình ảnh..."
-  ></textarea>
+    <textarea
+      id="prompt"
+      placeholder="Nhập mô tả hình ảnh..."
+    ></textarea>
 
-  <button id="generate">
-    ✨ Tạo ảnh
-  </button>
+    <button id="generateBtn" onclick="generateImage()">
+      ✨ Tạo ảnh
+    </button>
 
-  <div id="status"></div>
+    <div id="status"></div>
 
-  <img id="image">
+    <img id="result">
 
-</div>
+  </div>
 
 <script>
 
-const WORKER_URL = "DAN_URL_WORKER_VAO_DAY";
+async function generateImage() {
 
-const button = document.getElementById("generate");
-const promptInput = document.getElementById("prompt");
-const status = document.getElementById("status");
-const image = document.getElementById("image");
+  const prompt = document
+    .getElementById("prompt")
+    .value
+    .trim();
 
-button.onclick = async () => {
+  const button =
+    document.getElementById("generateBtn");
 
-  const prompt = promptInput.value.trim();
+  const status =
+    document.getElementById("status");
+
+  const result =
+    document.getElementById("result");
+
 
   if (!prompt) {
-    status.textContent = "⚠️ Hãy nhập mô tả ảnh";
+    status.innerText = "⚠️ Hãy nhập mô tả ảnh!";
     return;
   }
 
+
   button.disabled = true;
-  status.textContent = "🎨 AI đang tạo ảnh...";
-  image.style.display = "none";
+  button.innerText = "⏳ Đang tạo...";
+  status.innerText = "🎨 AI đang vẽ ảnh...";
+  result.style.display = "none";
+
 
   try {
 
+    /*
+      QUAN TRỌNG:
+
+      Thay dòng YOUR_WORKER_URL bên dưới
+      bằng link Worker của m.
+
+      Ví dụ:
+
+      https://huyen-anh-ai.username.workers.dev
+    */
+
     const response = await fetch(
-      WORKER_URL + "/generate",
+      "YOUR_WORKER_URL",
       {
         method: "POST",
 
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type":
+            "application/json"
         },
 
         body: JSON.stringify({
@@ -136,29 +160,46 @@ button.onclick = async () => {
       }
     );
 
-    const data = await response.json();
+
+    const data =
+      await response.json();
+
 
     if (!response.ok) {
       throw new Error(
-        data.error || "Không thể tạo ảnh"
+        data.error ||
+        "Không thể tạo ảnh"
       );
     }
 
-    image.src = data.image;
-    image.style.display = "block";
 
-    status.textContent = "✨ Tạo ảnh thành công!";
+    result.src =
+      data.image;
+
+    result.style.display =
+      "block";
+
+    status.innerText =
+      "✨ Tạo ảnh thành công!";
+
 
   } catch (error) {
 
-    status.textContent =
-      "❌ " + error.message;
+    console.error(error);
+
+    status.innerText =
+      "❌ Lỗi: " +
+      error.message;
 
   }
 
+
   button.disabled = false;
 
-};
+  button.innerText =
+    "✨ Tạo ảnh";
+
+}
 
 </script>
 
