@@ -1,209 +1,166 @@
-const html = `<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Huyền Ảnh AI</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-*{
-  box-sizing:border-box;
-}
+  <title>Huyền Ảnh AI</title>
 
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#121225;
-  color:white;
-  min-height:100vh;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-.container{
-  max-width:900px;
-  margin:auto;
-  padding:25px;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #151526;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
 
-h1{
-  text-align:center;
-  font-size:38px;
-}
+    .box {
+      width: 100%;
+      max-width: 700px;
+      background: #24243a;
+      padding: 25px;
+      border-radius: 20px;
+    }
 
-.box{
-  background:#20203a;
-  padding:20px;
-  border-radius:20px;
-  margin-top:20px;
-}
+    h1 {
+      text-align: center;
+      margin-top: 0;
+    }
 
-textarea{
-  width:100%;
-  height:130px;
-  border:none;
-  border-radius:15px;
-  padding:15px;
-  font-size:16px;
-}
+    textarea {
+      width: 100%;
+      min-height: 140px;
+      padding: 15px;
+      font-size: 16px;
+      border-radius: 12px;
+      border: 1px solid #555;
+      resize: vertical;
+    }
 
-.options{
-  display:flex;
-  gap:10px;
-  margin-top:15px;
-}
+    button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      cursor: pointer;
+      background: #7c3aed;
+      color: white;
+    }
 
-select,button{
-  padding:14px;
-  border-radius:12px;
-  border:none;
-  font-size:16px;
-}
+    button:disabled {
+      opacity: 0.6;
+    }
 
-select{
-  flex:1;
-}
+    #status {
+      text-align: center;
+      margin: 20px 0;
+    }
 
-button{
-  width:100%;
-  margin-top:15px;
-  background:#7c3aed;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-button:disabled{
-  opacity:.5;
-}
-
-#result{
-  margin-top:25px;
-  text-align:center;
-}
-
-#result img{
-  max-width:100%;
-  border-radius:20px;
-}
-</style>
+    img {
+      width: 100%;
+      display: none;
+      border-radius: 15px;
+      margin-top: 15px;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="container">
-
-<h1>⚔️ Huyền Ảnh AI ✨</h1>
-
 <div class="box">
 
-<h2>🎨 Tạo ảnh AI</h2>
+  <h1>✨ Huyền Ảnh AI</h1>
 
-<textarea id="prompt"
-placeholder="Ví dụ: Một nữ tu tiên đứng trên đỉnh núi, lôi kiếp, phong cách fantasy..."></textarea>
+  <textarea
+    id="prompt"
+    placeholder="Nhập mô tả hình ảnh..."
+  ></textarea>
 
-<div class="options">
+  <button id="generate">
+    ✨ Tạo ảnh
+  </button>
 
-<select id="size">
-<option value="1024x1024">⬜ 1:1</option>
-<option value="1024x1536">📱 2:3</option>
-<option value="1536x1024">🖼️ 3:2</option>
-</select>
+  <div id="status"></div>
 
-</div>
-
-<button id="generate">
-✨ TẠO ẢNH
-</button>
-
-</div>
-
-<div id="result"></div>
+  <img id="image">
 
 </div>
 
 <script>
 
-const btn = document.getElementById("generate");
+const WORKER_URL = "DAN_URL_WORKER_VAO_DAY";
 
-btn.onclick = async () => {
+const button = document.getElementById("generate");
+const promptInput = document.getElementById("prompt");
+const status = document.getElementById("status");
+const image = document.getElementById("image");
 
-  const prompt = document.getElementById("prompt").value;
-  const size = document.getElementById("size").value;
-  const result = document.getElementById("result");
+button.onclick = async () => {
 
-  if(!prompt){
-    result.innerHTML = "⚠️ Hãy nhập mô tả ảnh!";
+  const prompt = promptInput.value.trim();
+
+  if (!prompt) {
+    status.textContent = "⚠️ Hãy nhập mô tả ảnh";
     return;
   }
 
-  btn.disabled = true;
-  btn.innerText = "⏳ Đang tạo ảnh...";
+  button.disabled = true;
+  status.textContent = "🎨 AI đang tạo ảnh...";
+  image.style.display = "none";
 
-  result.innerHTML = "✨ AI đang vẽ ảnh cho bạn...";
+  try {
 
-  try{
+    const response = await fetch(
+      WORKER_URL + "/generate",
+      {
+        method: "POST",
 
-    const response = await fetch("/generate",{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify({
-        prompt,
-        size
-      })
-    });
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          prompt: prompt
+        })
+      }
+    );
 
     const data = await response.json();
 
-    if(data.error){
-      result.innerHTML = "❌ " + data.error;
-    }else{
-      result.innerHTML =
-      '<img src="' + data.image + '">';
+    if (!response.ok) {
+      throw new Error(
+        data.error || "Không thể tạo ảnh"
+      );
     }
 
-  }catch(error){
+    image.src = data.image;
+    image.style.display = "block";
 
-    result.innerHTML =
-    "❌ Có lỗi khi kết nối AI";
+    status.textContent = "✨ Tạo ảnh thành công!";
+
+  } catch (error) {
+
+    status.textContent =
+      "❌ " + error.message;
 
   }
 
-  btn.disabled = false;
-  btn.innerText = "✨ TẠO ẢNH";
+  button.disabled = false;
 
 };
 
 </script>
 
 </body>
-</html>`;
-
-export default {
-
-  async fetch(request, env) {
-
-    const url = new URL(request.url);
-
-    if (
-      request.method === "GET" &&
-      url.pathname === "/"
-    ) {
-
-      return new Response(html, {
-        headers: {
-          "content-type":
-          "text/html;charset=UTF-8"
-        }
-      });
-
-    }
-
-    if (
-      request.method === "POST" &&
-      url.pathname === "/generate"
-    ) {
-
-      try {
-
-        const body
+</html>
